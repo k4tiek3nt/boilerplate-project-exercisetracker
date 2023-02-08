@@ -45,6 +45,24 @@ router.get("/file/*?", function (req, res, next) {
 /* Global setting for timeouts, handles possible wrong callbacks */
 const TIMEOUT = 10000;
 
+// Install & Set up mongoose
+const mongoose = require('mongoose');
+const mongoUri = process.env.MONGO_URI; //database connect string
+
+// Connect to Mongoose
+mongoose.connect(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true });
+const connection = mongoose.connection;
+
+// Display connection errors
+connection.on('error', console.error.bind(console, 'connection error:'));
+
+// Only executes if successfully connected
+connection.once('open', function() {
+  console.log("MongoDB connected successfully");
+/* (placeholder) update here with api code.  
+Researching how to add additional files to handle mongo schema and model and different api calls */
+  });
+
 // listener that alerts when app is connected
 const listener = app.listen(port, () => {
   console.log('Your app is listening on port ' + listener.address().port)
