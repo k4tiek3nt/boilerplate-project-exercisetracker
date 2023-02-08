@@ -42,6 +42,9 @@ router.get("/file/*?", function (req, res, next) {
   });
 });
 
+/* Global setting for timeouts, handles possible wrong callbacks */
+const TIMEOUT = 10000;
+
 // listener that alerts when app is connected
 const listener = app.listen(port, () => {
   console.log('Your app is listening on port ' + listener.address().port)
