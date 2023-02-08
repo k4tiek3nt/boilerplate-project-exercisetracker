@@ -24,6 +24,11 @@ const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: "false" }));
 app.use(bodyParser.json());
 
+// Setup of File System and Router
+const fs = require("fs");
+const path = require("path");
+const router = express.Router();
+
 // listener that alerts when app is connected
 const listener = app.listen(port, () => {
   console.log('Your app is listening on port ' + listener.address().port)
