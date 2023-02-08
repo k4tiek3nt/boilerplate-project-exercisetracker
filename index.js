@@ -1,3 +1,5 @@
+'use strict'; // Avoids undefined variables
+
 const express = require('express')
 const app = express()
 const cors = require('cors')
