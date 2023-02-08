@@ -19,7 +19,10 @@ app.get('/', (req, res) => {
 // Basic Configuration
 const port = process.env.PORT || 3000;
 
-
+// Allow parsing of app/json data
+const bodyParser = require("body-parser");
+app.use(bodyParser.urlencoded({ extended: "false" }));
+app.use(bodyParser.json());
 
 // listener that alerts when app is connected
 const listener = app.listen(port, () => {
