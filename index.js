@@ -5,7 +5,9 @@ const app = express()
 const cors = require('cors')
 require('dotenv').config()
 
-app.use(cors())
+// avoids choke on 204 (some legacy browsers)
+app.use(cors({ optionsSuccessStatus: 200 })); 
+
 app.use(express.static('public'))
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/views/index.html')
