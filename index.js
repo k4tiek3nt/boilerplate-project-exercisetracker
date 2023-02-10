@@ -84,6 +84,16 @@ connection.once('open', function() {
   });    
 });
 
+// new API endpoint to Add Exercises to Log
+app.post('/api/users/:_id/exercises', function(req, res) {
+  const username = req.body.username;
+  let newUser = new User({username: username});
+  newUser.save(function(err, user) {
+    if (err) res.send("New user not added.");
+    res.send({username: user.username, _id:        user._id});
+    });
+  });
+
 // listener that alerts when app is connected
 const listener = app.listen(port, () => {
   console.log('Your app is listening on port ' + listener.address().port)
