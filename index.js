@@ -59,9 +59,51 @@ connection.on('error', console.error.bind(console, 'connection error:'));
 // Only executes if successfully connected
 connection.once('open', function() {
   console.log("MongoDB connected successfully");
-/* (placeholder) update here with api code.  
-Researching how to add additional files to handle mongo schema and model and different api calls */
+  
+  //import the User Model
+  const User = require("./myApp.js").UserModel;
+
+  //Confirm User Model properly imported
+  router.use(function (req, res, next) {
+    if (req.method !== "OPTIONS" && User.modelName !== "User") {
+      return next({ message: "User Model is not correct" });
+    }
+    next();
   });
+
+  // create new instance based on model
+  router.post("/api/users", function (req, res, next) {
+    let u;
+    u = new User(req.body);
+    res.json(u);
+  });
+
+  // create a User
+  const createUser = require("./myApp.js").createAndSaveUser;
+  router.get("/create-and-save-user", function (req, res, next) {
+    // in case of incorrect function use wait timeout then respond
+    let t = setTimeout(() => {
+      next({ message: "timeout" });
+    }, TIMEOUT);
+    createUser(function (err, data) {
+      clearTimeout(t);
+      if (err) {
+        return next(err);
+      }
+      if (!data) {
+        console.log("Missing `done()` argument");
+        return next({ message: "Missing callback argument" });
+      }
+      User.findById(data._id, function (err, user) {
+        if (err) {
+          return next(err);
+        }
+        res.json(user);
+        user.remove();
+      });
+    });
+  });
+});
 
 // listener that alerts when app is connected
 const listener = app.listen(port, () => {
