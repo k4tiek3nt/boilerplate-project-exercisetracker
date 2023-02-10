@@ -59,50 +59,29 @@ connection.on('error', console.error.bind(console, 'connection error:'));
 // Only executes if successfully connected
 connection.once('open', function() {
   console.log("MongoDB connected successfully");
-  
-  //import the User Model
+
+  // import user model
   const User = require("./myApp.js").UserModel;
 
-  //Confirm User Model properly imported
-  router.use(function (req, res, next) {
-    if (req.method !== "OPTIONS" && User.modelName !== "User") {
-      return next({ message: "User Model is not correct" });
-    }
-    next();
-  });
-
-  // create new instance based on model
-  router.post("/api/users", function (req, res, next) {
-    let u;
-    u = new User(req.body);
-    res.json(u);
-  });
-
-  // create a User
-  const createUser = require("./myApp.js").createAndSaveUser;
-  router.get("/create-and-save-user", function (req, res, next) {
-    // in case of incorrect function use wait timeout then respond
-    let t = setTimeout(() => {
-      next({ message: "timeout" });
-    }, TIMEOUT);
-    createUser(function (err, data) {
-      clearTimeout(t);
-      if (err) {
-        return next(err);
-      }
-      if (!data) {
-        console.log("Missing `done()` argument");
-        return next({ message: "Missing callback argument" });
-      }
-      User.findById(data._id, function (err, user) {
-        if (err) {
-          return next(err);
-        }
-        res.json(user);
-        user.remove();
-      });
+  // new API endpoint for creating new user
+  app.post('/api/users', function(req, res) {
+  const username = req.body.username;
+  let newUser = new User({username: username});
+  newUser.save(function(err, user) {
+    if (err) res.send("New user not added.");
+    res.send({username: user.username, _id:        user._id});
     });
   });
+
+  // new API endpoint to return saved users
+  app.get('/api/users', function(req, res) {
+  User.find({})
+    .select('username _id')
+    .exec(function(err, users) {
+      if (err) res.send("No users found");
+      res.send(users);
+    }); 
+  });    
 });
 
 // listener that alerts when app is connected
