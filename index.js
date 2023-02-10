@@ -68,7 +68,7 @@ connection.once('open', function() {
   const username = req.body.username;
   let newUser = new User({username: username});
   newUser.save(function(err, user) {
-    if (err) res.send("New user not added.");
+    if (err) res.send("New user not added, please try again. Be sure to include a username.");
     res.send({username: user.username, _id:        user._id});
     });
   });
@@ -82,17 +82,40 @@ connection.once('open', function() {
       res.send(users);
     }); 
   });    
-});
-
-// new API endpoint to Add Exercises to Log
-app.post('/api/users/:_id/exercises', function(req, res) {
-  const username = req.body.username;
-  let newUser = new User({username: username});
-  newUser.save(function(err, user) {
-    if (err) res.send("New user not added.");
-    res.send({username: user.username, _id:        user._id});
+  
+  // new API endpoint to Add Exercises to Log
+  app.post('/api/users/:_id/exercises', function(req, res) {
+    const id = req.params._id;
+    User.findById(id, function(err, user) {
+      if (err) res.send("Invalid ID");
+      const description = req.body.description;
+      const duration = req.body.duration && 
+        !Number.isNaN(Number(req.body.duration)) ? 
+        Number(req.body.duration) : 
+        res.send(`Enter valid input for 'duration'. 
+        This should be a number. For example for a 30 minute 
+        exercise, please input 30.`
+      );
+      
+      // if no input for date, use today
+      const date = !req.body.date ? new Date().toDateString() : req.body.date ? new Date(req.body.date).toDateString() : 
+        res.send(`Enter a valid input for 'date'`);
+        
+      let newExercise = {
+        description: description,
+        duration: duration,
+        date: date
+      };
+      
+      user.log.push(newExercise);
+      user.save((err, data) => {
+      if (err) res.send("New exercise not added, please try again.");
+      res.send({username: user.username, description: description, 
+        duration: duration, date: date, _id: id});
+      });
     });
   });
+});
 
 // listener that alerts when app is connected
 const listener = app.listen(port, () => {
