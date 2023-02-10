@@ -1,5 +1,8 @@
 require('dotenv').config();
 
+// redefining mongoose for use in myApp
+const mongoose = require('mongoose');
+
 //Assign Mongoose Schema to a variable
 const Schema = mongoose.Schema;
 
