@@ -52,18 +52,26 @@ router.get("/file/*?", function (req, res, next) {
 
 // Install & Set up mongoose
 const mongoose = require('mongoose');
-const mongoUri = process.env.MONGO_URI; //database connect string
+// Database connect string
+const mongoUri = process.env.MONGO_URI;
+// Variable to advise successful connection
+const mongoSuccess = "MongoDB connected successfully";
 
 // Connect to Mongoose
-mongoose.connect(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true });
-const connection = mongoose.connection;
-
-// Display connection errors
-connection.on('error', console.error.bind(console, 'connection error:'));
-
-// Only executes if successfully connected
-connection.once('open', function() {
-  console.log("MongoDB connected successfully");
+mongoose.connect(
+  mongoUri, 
+  { 
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  },
+  (err) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log(mongoSuccess);
+    }
+  }
+);
 
   // import user model
   const User = require("./myApp.js").UserModel;
@@ -78,7 +86,7 @@ connection.once('open', function() {
     });
   });
 
-  // new API endpoint to return saved users
+  // new API endpoint to return all saved users
   app.get('/api/users', function(req, res) {
   User.find({})
     .select('username _id')
