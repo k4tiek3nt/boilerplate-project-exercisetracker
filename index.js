@@ -19,6 +19,9 @@ app.get('/', (req, res) => {
 // Basic Configuration
 const port = process.env.PORT || 3000;
 
+// added server to allow http headers
+const server = require("http").createServer(app);
+
 // Allow parsing of app/json data
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: "false" }));
@@ -118,6 +121,7 @@ connection.once('open', function() {
 });
 
 // listener that alerts when app is connected
-const listener = app.listen(port, () => {
+// updated from app.listen to server.listen
+const listener = server.listen(port, () => {
   console.log('Your app is listening on port ' + listener.address().port)
 })
