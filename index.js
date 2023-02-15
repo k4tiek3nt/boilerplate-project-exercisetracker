@@ -78,11 +78,18 @@ const User = require("./myApp.js").UserModel;
 
 // new API endpoint for creating new user
 app.post('/api/users', function(req, res) {
+// Defines username to use based on user input
 const username = req.body.username;
 let newUser = new User({username: username});
 newUser.save(function(err, user) {
-  if (err) res.send("New user not added, please try again. Be sure to include a username.");
-  res.send({username: user.username, _id:        user._id});
+  if (err){
+    console.log("Error adding user: " + err);
+    res.send("New user not added, please try again. Be sure to include a username.");
+  } 
+  else{
+    console.log("User added: " + user);
+    res.send({ _id: user._id, username: user.username });
+  }  
   });
 });
 
