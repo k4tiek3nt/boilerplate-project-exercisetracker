@@ -50,9 +50,6 @@ router.get("/file/*?", function (req, res, next) {
   });
 });
 
-/* Global setting for timeouts, handles possible wrong callbacks */
-const TIMEOUT = 10000;
-
 // Install & Set up mongoose
 const mongoose = require('mongoose');
 const mongoUri = process.env.MONGO_URI; //database connect string
