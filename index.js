@@ -22,6 +22,11 @@ const port = process.env.PORT || 3000;
 // added server to allow http headers
 const server = require("http").createServer(app);
 
+//import moment.js library
+var moment = require('moment');
+//including format to check dates
+moment().format();
+
 // Allow parsing of app/json data
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: "false" }));
