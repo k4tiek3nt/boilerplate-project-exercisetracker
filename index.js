@@ -121,10 +121,9 @@ app.post('/api/users/:_id/exercises', function(req, res) {
     };
     
     user.log.push(newExercise);
-    user.save((err, data) => {
+    user.save((err, user) => {
     if (err) res.send("New exercise not added, please try again.");
-    res.send({username: user.username, description: description, 
-      duration: duration, date: date, _id: id});
+    res.send({username: user.username, description: description, duration: duration, date: date, _id: id});
     });
   });
 });
