@@ -13,13 +13,15 @@
       <form action="/api/users" method="post">
         <h3>Create a New User</h3>
         <p><code>POST /api/users</code></p>
+        <p>Note: Field below with * is required.           </p>
+        <input id="uname" type="text" name="username" placeholder="username*" />
         <input id="uname" type="text" name="username" placeholder="username" />
         <input type="submit" value="Submit" />
       </form>
       <form id="exercise-form" method="post">
         <h3>Add exercises</h3>
         <p><code>POST /api/users/:_id/exercises</code></p>
-        <p>Note: Items below with * are required.</p>
+        <p>Note: Fields below with * are required.</p>
         <input id="uid" type="text" name=":_id" placeholder="_id*" />
         <input id="desc" type="text" name="description" placeholder="description*" />
         <input id="dur" type="text" name="duration" placeholder="duration* (mins.)" />
@@ -31,7 +33,7 @@
         <p><code>GET /api/users/:_id/logs?[from][&amp;to][&amp;limit]</code></p>
 	<p><strong>[ ]</strong> = optional</p>
       	<p><strong>from, to</strong> = dates (yyyy-mm-dd); <strong>limit</strong> = 	number</p>
-        <p>Note: Items below with * are required.</p>
+        <p>Note: Fields below with * are required.</p>
         <input id="uid" type="text" name=":_id" placeholder="_id*" />
         <input id="from" type="text" name="from" placeholder="from* (yyyy-mm-dd)" />
         <input id="to" type="text" name="to" placeholder="to* (yyyy-mm-dd)" />
