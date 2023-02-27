@@ -31,35 +31,41 @@
       <form id="exercise-log" method="get">
         <h3>GET user's exercise log</h3>
         <p><code>GET /api/users/:_id/logs?[from][&amp;to][&amp;limit]</code></p>
-	<p><strong>[ ]</strong> = optional</p>
+	<p><strong>[ ]</strong> = optional search fields</p>
       	<p><strong>from, to</strong> = dates (yyyy-mm-dd); <strong>limit</strong> = 	number</p>
         <p>Note: Fields below with * are required.</p>
-        <input id="uid" type="text" name=":_id" placeholder="_id*" />
-        <input id="from" type="text" name="from" placeholder="from* (yyyy-mm-dd)" />
-        <input id="to" type="text" name="to" placeholder="to* (yyyy-mm-dd)" />
+        <input id="id" type="text" name=":_id" placeholder="_id*" />
+        <input id="from" type="text" name="from" placeholder="from (yyyy-mm-dd)" />
+        <input id="to" type="text" name="to" placeholder="to (yyyy-mm-dd)" />
         <input id="limit" type="number" name="limit" placeholder="number of records (i.e. 1)" />
         <input type="submit" value="Submit" />
       </form>
+
+    <h3>GET user's exercise log</h3>
+  
     </div>
     <script>
       const exerciseForm = document.getElementById("exercise-form");
-
       exerciseForm.addEventListener("submit", () => {
         const userId = document.getElementById("uid").value;
+        const description = document.getElementById("desc").value;
+        const duration = document.getElementById("dur").value;
+        const date = document.getElementById("date").value;
+        
         exerciseForm.action = `/api/users/${userId}/exercises`;
 
         exerciseForm.submit();
       });
-const exerciseLog = document.getElementById("exercise-log");
+const exerciseLogs = document.getElementById("exercise-log");
 
-      exerciseLog.addEventListener("submit", () => {
-        const userId = document.getElementById("uid").value;
+      exerciseLogs.addEventListener("submit", () => {
+        const usersId = document.getElementById("id").value;
 	const fromDate = document.getElementById("from").value;
 	const toDate = document.getElementById("to").value;
 	const limit = document.getElementById("limit").value;
-        exerciseLog.action = `/api/users/${userId}/logs?/${fromDate}/${toDate}/${limit}`;
+        exerciseLogs.action = `/api/users/${usersId}/logs/${fromDate}/${toDate}/${limit}`;
 
-        exerciseLog.submit();
+        exerciseLogs.submit();
       });      
     </script>
   </body>
