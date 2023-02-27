@@ -13,14 +13,13 @@
       <form action="/api/users" method="post">
         <h3>Create a New User</h3>
         <p><code>POST /api/users</code></p>
-<p>Note: Field below with * is required.</p>
-        <input id="uname" type="text" name="username" placeholder="username*" />
+        <input id="uname" type="text" name="username" placeholder="username" />
         <input type="submit" value="Submit" />
       </form>
       <form id="exercise-form" method="post">
         <h3>Add exercises</h3>
         <p><code>POST /api/users/:_id/exercises</code></p>
-        <p>Note: Fields below with * are required.</p>
+        <p>Note: Items below with * are required.</p>
         <input id="uid" type="text" name=":_id" placeholder="_id*" />
         <input id="desc" type="text" name="description" placeholder="description*" />
         <input id="dur" type="text" name="duration" placeholder="duration* (mins.)" />
@@ -30,12 +29,12 @@
       <form id="exercise-log" method="get">
         <h3>GET user's exercise log</h3>
         <p><code>GET /api/users/:_id/logs?[from][&amp;to][&amp;limit]</code></p>
-	<p><strong>[ ]</strong> = optional search fields</p>
+	<p><strong>[ ]</strong> = optional</p>
       	<p><strong>from, to</strong> = dates (yyyy-mm-dd); <strong>limit</strong> = 	number</p>
-        <p>Note: Fields below with * are required.</p>
-        <input id="id" type="text" name=":_id" placeholder="_id*" />
-        <input id="from" type="text" name="from" placeholder="from (yyyy-mm-dd)" />
-        <input id="to" type="text" name="to" placeholder="to (yyyy-mm-dd)" />
+        <p>Note: Items below with * are required.</p>
+        <input id="uid" type="text" name=":_id" placeholder="_id*" />
+        <input id="from" type="text" name="from" placeholder="from* (yyyy-mm-dd)" />
+        <input id="to" type="text" name="to" placeholder="to* (yyyy-mm-dd)" />
         <input id="limit" type="number" name="limit" placeholder="number of records (i.e. 1)" />
         <input type="submit" value="Submit" />
       </form>
@@ -49,16 +48,16 @@
 
         exerciseForm.submit();
       });
-const exerciseLogs = document.getElementById("exercise-log");
+const exerciseLog = document.getElementById("exercise-log");
 
-      exerciseLogs.addEventListener("submit", () => {
-        const usersId = document.getElementById("id").value;
+      exerciseLog.addEventListener("submit", () => {
+        const userId = document.getElementById("uid").value;
 	const fromDate = document.getElementById("from").value;
 	const toDate = document.getElementById("to").value;
 	const limit = document.getElementById("limit").value;
-        exerciseLogs.action = `/api/users/${usersId}/logs/${fromDate}/${toDate}/${limit}`;
+        exerciseLog.action = `/api/users/${userId}/logs?/${fromDate}/${toDate}/${limit}`;
 
-        exerciseLogs.submit();
+        exerciseLog.submit();
       });      
     </script>
   </body>
