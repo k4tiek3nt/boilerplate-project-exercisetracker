@@ -10,7 +10,7 @@ const userSchema = new Schema({
   log: [{    
     description: {type: String, required: true},
     duration: {type: Number, required: true},
-    date: {type: String, default: Date.now, required: false}
+    date: {type: String, required: false}
   }]
 });
 

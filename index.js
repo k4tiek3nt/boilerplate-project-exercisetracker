@@ -118,7 +118,7 @@ app.post('/api/users/:_id/exercises', function(req, res) {
     );
     
     // if no input for date, use today
-    const date = req.body.date ? new Date(req.body.date).toDateString() : 
+    const date = !req.body.date ? new Date().toDateString() : req.body.date ? new Date(req.body.date).toDateString() : 
       res.send(`Enter a valid input for 'date'`);
       
     let newExercise = {
