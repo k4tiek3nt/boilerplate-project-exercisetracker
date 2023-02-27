@@ -1,5 +1,3 @@
-require('dotenv').config();
-
 // redefining mongoose for use in myApp
 const mongoose = require('mongoose');
 
@@ -9,10 +7,11 @@ const Schema = mongoose.Schema;
 // Create User Schema 
 const userSchema = new Schema({
   username: {type: String, required: true},
-  log: [{    
+  log: [{  
+    _id: false,
     description: {type: String, required: true},
     duration: {type: Number, required: true},
-    date: {type: String, required: false}
+    date: {type: String, default: Date.now, required: false}
   }]
 });
 
